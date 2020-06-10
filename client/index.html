@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>qr-code-generator</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,user-scalable=no"
+    />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@1,400;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./client/css/main.css">
+    <script type="text/javascript" src="./client/js/jquery.min.js"></script>
+    <script type="text/javascript" src="./client/js/qrcode.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  </head>
+  <body>
+    <header>
+      <div class="navbar">
+        <a id="app-title" href="http://localhost:8080/">QR code generator</a>
+      </div>
+      
+    </header>
+    <main>
+      <div id="input-container" class="input">
+        <input type="text" id="qrdata" />
+        <button id="submit" onclick="onSubmit()">submit</button>
+      </div>
+      <div id="output-container" class="output">
+        <img id="qrcode" src="" alt="qrcode alt text" style="display: none;"></img>
+        <div class="break"></div> <!-- break -->
+        <p id="qrvalue" style="display: none;"></img>
+      </div>
+    </main>
+    <script type="text/javascript">
+      const qrcodeInputId = "#qrdata";
+      const qrcodeOutputId = "#qrcode";
+      const qrValueId = "#qrvalue";
+      const url = "http://localhost:8080/qrcode";
+      let data = null;
+      const onSubmit = () => {
+        let qrdata = $(qrcodeInputId);
+        for (let index = 0; index < qrdata.length; index++) {          
+          let e = qrdata[index];
+          if(e.value !== null && e.value !== undefined){
+            data = e.value;
+          }
+          
+        }
+        if (data != null && data != undefined) {
+          $.get(url, { data }, (res) => {
+            console.log(res)
+            if (res.statusCode === 200) {
+              console.log(res)
+              $(qrcodeOutputId).attr("src", res.data.qrcode).show();
+              $(qrValueId).text("QR code value: " + res.data.qrdata).show();
+            }
+          });
+        }
+      };
+    </script>
+  </body>
+</html>

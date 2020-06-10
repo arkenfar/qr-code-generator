@@ -1,0 +1,78 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+.navbar {
+  width: 100%;
+  height: 50px;
+  background-color: darkslategray;
+  border-bottom: 3px solid darkslateblue;
+  padding: 10px;
+}
+
+#app-title {
+  color: orange;
+  font-family: "Roboto", sans-serif;
+  text-decoration: underline overline;
+  font-size: xx-large;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
+}
+
+#app-title:hover {
+  color: #ffffff;
+}
+
+#input-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
+}
+#input-container button {
+  margin: 2px;
+  padding: 15px 25px;
+  border-radius: 25px;
+  background-color: skyblue;
+  font-size: 24px;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+  box-shadow: 0 9px #999;
+}
+#input-container button:hover {
+  background-color: orange;
+}
+#input-container button:active {
+  color: white;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+#input-container input {
+  font-size: 35px;
+  margin: 10px;
+  width: 500px;
+  height: 40px;
+  padding: 3px;
+}
+
+#input-container button {
+  font-weight: bold;
+}
+
+#output-container {
+  margin-left: 25px;
+  margin-right: 25px;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: center;
+  border: 3px solid darkslategray;
+}
+
+.break {
+  flex-basis: 100%;
+  height: 0;
+}
