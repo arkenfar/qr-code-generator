@@ -2,7 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const router = express.Router();
 const app = express();
-const port = 8080;
+const port = process.env.PORT || 8080;
 const serv = require("http").Server(app);
 const createQR = require("./client/js/createQR");
 
