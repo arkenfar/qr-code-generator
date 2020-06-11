@@ -35,8 +35,9 @@
       const qrcodeInputId = "#qrdata";
       const qrcodeOutputId = "#qrcode";
       const qrValueId = "#qrvalue";
-      const url = "http://localhost:8080/qrcode";
-      const currentUrl = window.location.href
+      const url = window.location.href + "/qrcode"
+      // const url = "http://localhost:8080/qrcode";
+      
       console.log(currentUrl)
       let data = null;
       const onSubmit = () => {
