@@ -25,7 +25,7 @@
         <label for="qrdata" class="label">Enter QR-code value</label>
         <input type="text" id="qrdata" />
         <div class="container" id="buttons">
-          <button id="submit" onclick="onSubmit()">Create QR</button>
+          <button id="submit" onclick="onSubmit()">Create</button>
           <button id="clear" onclick="onClear()">Clear</button>
         </div>
        
@@ -57,6 +57,12 @@
       window.addEventListener('load', (event) => {
         setHrefById("app-title", currentUrl);
         setCssById("output-container", {"background-color": "#666"})
+        $("img").mousedown(function(e){
+               e.preventDefault()
+          });
+        $('body').on('contextmenu',  function(e){ 
+          return false; 
+        });
       });                 
       const qrcodeInputId = "#qrdata";
       const qrcodeOutputId = "#qrcode";
@@ -92,9 +98,10 @@
       };
       const onClear = () => {        
         $(qrcodeInputId).each(( i, e )  => {
-         e.value = ""
+         e.value = ""         
         });
         $(qrcodeOutputId).attr("src", "").hide();
+        $(qrcodeInputId).css('border', '3px solid black'); 
         $(qrValueId).text("").hide();
       }
     </script>
