@@ -16,50 +16,87 @@
   <body>
     <header>
       <div class="navbar">
-        <a id="app-title" href="http://localhost:8080/">QR code generator</a>
-      </div>
-      
+        <a id="app-title" href="">QR Code Generator</a>
+      </div>      
     </header>
     <main>
-      <div id="input-container" class="input">
+      <div id="output-container" class="container">
+      <div id="input-container" class="container">
+        <label for="qrdata" class="label">Enter QR-code value</label>
         <input type="text" id="qrdata" />
-        <button id="submit" onclick="onSubmit()">submit</button>
+        <div class="container" id="buttons">
+          <button id="submit" onclick="onSubmit()">Create QR</button>
+          <button id="clear" onclick="onClear()">Clear</button>
+        </div>
+       
       </div>
-      <div id="output-container" class="output">
+      <div class="break"></div> 
         <img id="qrcode" src="" alt="qrcode alt text" style="display: none;"></img>
-        <div class="break"></div> <!-- break -->
-        <p id="qrvalue" style="display: none;"></img>
+        <div class="break"></div> 
+        <p id="qrvalue" style="display: none;"> </p></img>
+      </div>
+      <div id="footer">
+      <footer>
+        <p>Arkenfar</p>
+        <p>2020 &copy; All Rights Reserved</p>
+      </footer>
       </div>
     </main>
     <script type="text/javascript">
+    const currentUrl = window.location.href;
+    const setHrefById = (id, href) => {
+        $("#"+id).attr("href", href);
+      } 
+      const setCssById = (id, css) => {
+        if (!id.startsWith("#")) {
+          console.log("string does not start with #", id)
+          id = "#" + id 
+        }                
+        $(id).css(css);
+      } 
+      window.addEventListener('load', (event) => {
+        setHrefById("app-title", currentUrl);
+        setCssById("output-container", {"background-color": "#666"})
+      });                 
       const qrcodeInputId = "#qrdata";
       const qrcodeOutputId = "#qrcode";
-      const qrValueId = "#qrvalue";
-      const url = window.location.href + "qrcode"
-      // const url = "http://localhost:8080/qrcode";
-      
-      // console.log(currentUrl)
-      let data = null;
+      const qrValueId = "#qrvalue";      
+      const url = currentUrl + "qrcode"            
+      let data = String;
       const onSubmit = () => {
-        let qrdata = $(qrcodeInputId);
+        let qrdata = $(qrcodeInputId);        
         for (let index = 0; index < qrdata.length; index++) {          
           let e = qrdata[index];
           if(e.value !== null && e.value !== undefined){
             data = e.value;
-          }
-          
+          }          
         }
-        if (data != null && data != undefined) {
-          $.get(url, { data }, (res) => {
-            console.log(res)
-            if (res.statusCode === 200) {
-              console.log(res)
+        if (data == "" || data == undefined || data == null ){          
+          $(qrcodeInputId).css('border', '4px solid red'); 
+          setCssById(qrValueId, {"color": "#D82801", "font-size": "25px"});
+          $(qrcodeOutputId).attr("src", "").hide();
+          $(qrValueId).text("Error: You need to enter something to create a QR code.").show();
+          return
+        }
+        if (data != null && data != undefined && data != "") {
+          
+          $.get(url, { data }, (res) => {            
+            if (res.statusCode === 200) {              
+              $(qrcodeInputId).css('border', '3px solid black'); 
               $(qrcodeOutputId).attr("src", res.data.qrcode).show();
+              setCssById(qrValueId, {"color": "white", "font-size": "20px"});
               $(qrValueId).text("QR code value: " + res.data.qrdata).show();
             }
           });
         }
       };
+      const onClear = () => {        
+        $(qrcodeInputId).each(( i, e )  => {
+         e.value = ""
+        });
+        $(qrcodeOutputId).attr("src", "").hide();
+        $(qrValueId).text("").hide();
+      }
     </script>
   </body>
 </html>
