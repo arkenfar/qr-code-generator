@@ -4,12 +4,12 @@ const router = express.Router();
 const app = express();
 const port = process.env.PORT || 8080;
 const serv = require("http").Server(app);
-const createQR = require("./client/js/createQR");
-
-//Here we are configuring express to use body-parser as middle-ware.
+const morgan = require("morgan");
+const createQR = require("./src/createQR");
+const routes = require("./src/routes/routes");
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-
+app.use(morgan("dev"));
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header(
@@ -18,11 +18,7 @@ app.use(function (req, res, next) {
   );
   next();
 });
-
-app.get("/qrcode", async (req, res) => {
-  const qr = await createQR(req.query.data, res);
-  res.json(qr);
-});
+app.use("/", routes);
 
 app.get("/", (req, res) => res.sendFile(__dirname + "/client/index.html"));
 
